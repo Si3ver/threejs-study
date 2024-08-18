@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>01</title>
+    <title>02</title>
     <style>
         * {
             margin: 0;
@@ -20,12 +20,12 @@
     <script type="module">
         import * as Three from 'three';
         const scene = new Three.Scene();
-        const camera = new Three.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new Three.WebGLRenderer();
 
         scene.background = new Three.Color(0xc89e06bb)
 
-        camera.position.set(2, 0, 5);
+        camera.position.set(0, 2, 5);
         camera.lookAt(0, 0, 0)
 
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -43,13 +43,18 @@
         cube2.position.x = 2;
         scene.add(cube, cube2);
 
-        renderer.render(scene, camera);
-
+        const radius = 3;
+        let angle = 0;
 
         function animate() {
             requestAnimationFrame(animate);
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
+
+            angle += 0.01;
+            camera.position.x = Math.sin(angle) * radius;
+            camera.position.z = Math.cos(angle) * radius;
+            camera.lookAt(0, 0, 0)
             renderer.render(scene, camera);
         }
         animate();
