@@ -23,8 +23,10 @@
         const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new Three.WebGLRenderer();
 
-        camera.position.z = 3;
-        camera.position.x = 3;
+        scene.background = new Three.Color(0xc89e06bb)
+
+        camera.position.z = 5;
+        camera.position.x = 5;
         camera.lookAt(0, 0, 0)
 
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,7 +37,12 @@
             new Three.BoxGeometry(1, 1, 1),
             new Three.MeshBasicMaterial({ color: 0x00ff00 })
         );
-        scene.add(cube);
+        const cube2 = new Three.Mesh(
+            new Three.BoxGeometry(1, 1, 1),
+            new Three.MeshBasicMaterial({ color: 0x0000ff })
+        );
+        cube2.position.x = 2;
+        scene.add(cube, cube2);
 
         renderer.render(scene, camera);
 
