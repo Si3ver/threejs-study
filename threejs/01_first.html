@@ -24,34 +24,34 @@
         const scene = new Three.Scene();
         const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new Three.WebGLRenderer();
-        
-        const axeHelper = new Three.AxesHelper(3); // 坐标轴
-        const oribitHelper = new OrbitControls(camera, renderer.domElement); // 轨道控制器
 
         scene.background = new Three.Color(0xc89e06bb)
 
         camera.position.set(3, 4, 5);
-        camera.lookAt(0, 0, 0)
+        camera.lookAt(0, 0, 0);
 
-
+        const axeHelper = new Three.AxesHelper(3); // 坐标轴
+        const controls = new OrbitControls(camera, renderer.domElement); // 轨道控制器
+        controls.enableDamping = true; // 开启阻尼效果
+        controls.dampingFactor = 0.05; // 阻尼因子
+        controls.autoRotate = true; // 自动旋转
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         
+        // 绿色方块
         const cube = new Three.Mesh(
-            new Three.BoxGeometry(1, 1, 1),
-            new Three.MeshBasicMaterial({ color: 0x00ff00 })
+            new Three.BoxGeometry(1, 1, 1), // 几何体
+            new Three.MeshBasicMaterial({ color: 0x00ff00 }) // 材质
         );
-        const cube2 = new Three.Mesh(
-            new Three.BoxGeometry(1, 1, 1),
-            new Three.MeshBasicMaterial({ color: 0x0000ff })
-        );
-        cube2.position.x = 2;
-        scene.add(cube, cube2, axeHelper);
+        cube.position.set(2, 0, 0);
+        scene.add(cube, axeHelper);
 
         function animate() {
             requestAnimationFrame(animate);
             // cube.rotation.x += 0.01;
             // cube.rotation.y += 0.01;
+            controls.update();
             renderer.render(scene, camera);
         }
         animate();
