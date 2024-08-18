@@ -19,19 +19,24 @@
 <body>
     <script type="module">
         import * as Three from 'three';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
         const scene = new Three.Scene();
-        const camera = new Three.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new Three.WebGLRenderer();
+        
+        const axeHelper = new Three.AxesHelper(3); // 坐标轴
+        const oribitHelper = new OrbitControls(camera, renderer.domElement); // 轨道控制器
 
         scene.background = new Three.Color(0xc89e06bb)
 
-        camera.position.set(2, 0, 5);
+        camera.position.set(3, 4, 5);
         camera.lookAt(0, 0, 0)
+
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         
-
         const cube = new Three.Mesh(
             new Three.BoxGeometry(1, 1, 1),
             new Three.MeshBasicMaterial({ color: 0x00ff00 })
@@ -41,15 +46,12 @@
             new Three.MeshBasicMaterial({ color: 0x0000ff })
         );
         cube2.position.x = 2;
-        scene.add(cube, cube2);
-
-        renderer.render(scene, camera);
-
+        scene.add(cube, cube2, axeHelper);
 
         function animate() {
             requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
+            // cube.rotation.x += 0.01;
+            // cube.rotation.y += 0.01;
             renderer.render(scene, camera);
         }
         animate();
